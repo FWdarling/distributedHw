@@ -5,7 +5,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Objects;
 
-public class SearchServer {
+public class SearchServer2 {
 
     public static Object exec(String cmd) {
         try {
@@ -29,7 +29,7 @@ public class SearchServer {
     }
 
     public void search() throws IOException {
-        int port = 9999;
+        int port = 9997;
         ServerSocket server = new ServerSocket(port);
         System.out.println("Server started successfully, waiting for user access");
 
@@ -46,7 +46,7 @@ public class SearchServer {
         String name = new String(bytes, 3, len - 3);
         System.out.println("ServerId: " + id + " and author name is " + name + "\n");
         String searchString = "<author>" + name + "</author>";
-        String path = SearchServer.class.getResource("File/dblp.xml"+ id).getFile();
+        String path = SearchServer2.class.getResource("File/dblp.xml"+ id).getFile();
         String commandString = "grep -c '" + searchString + "' " + path;
         String answerString =  Objects.requireNonNull(exec(commandString)).toString();
         outputStream.write(("server" + id + " returns " + answerString).getBytes());
@@ -55,7 +55,7 @@ public class SearchServer {
 
     public static void main(String[] args){
         try {
-            SearchServer searchServer = new SearchServer();
+            SearchServer2 searchServer = new SearchServer2();
             searchServer.search();
 
         } catch (Exception e) {

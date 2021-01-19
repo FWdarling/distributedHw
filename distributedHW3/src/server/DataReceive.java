@@ -1,6 +1,5 @@
 package server;
 
-import javafx.concurrent.Task;
 
 import java.io.DataInputStream;
 import java.io.File;
@@ -8,7 +7,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.text.DecimalFormat;
 
 public class DataReceive extends ServerSocket {
     private static final int SERVER_PORT = 8888;

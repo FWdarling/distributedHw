@@ -34,3 +34,6 @@ build/
 
 ### dblp files ###
 **/dblp**
+
+### log files ###
+**/*.log

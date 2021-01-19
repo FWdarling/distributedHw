@@ -71,12 +71,6 @@ public class DataSend extends Socket {
             client.sendFile();
             client = new DataSend(ip3, 8888, path + "dblp.xml02");
             client.sendFile();
-            client = new DataSend(ip1, 8888, path + "dblp.xml01");
-            client.sendFile();
-            client = new DataSend(ip2, 8888, path + "dblp.xml02");
-            client.sendFile();
-            client = new DataSend(ip3, 8888, path + "dblp.xml00");
-            client.sendFile();
         } catch (Exception e) {
             e.printStackTrace();
         }
