@@ -76,7 +76,7 @@ public class Introducer extends Daemon{
                 Long time = stringLongEntry.getValue();
                 msg.append(ipAndPort).append("-").append(time.toString()).append("_");
             }
-            if(msg.length() > 0) msg.delete(msg.length() - 1, msg.length());
+            msg.append(ip).append(":").append(port.toString()).append("-").append(System.currentTimeMillis());
             return msg.toString();
         }
 
@@ -117,7 +117,7 @@ public class Introducer extends Daemon{
             public void run() {
                 introducer.heartBeating();
             }
-        }, 10000, 10000);
+        }, 5000, 5000);
 
         Timer timer2 = new Timer();
         timer2.scheduleAtFixedRate(new TimerTask() {
@@ -125,6 +125,6 @@ public class Introducer extends Daemon{
             public void run() {
                 introducer.check();
             }
-        }, 10000, 10000);
+        }, 20000, 20000);
     }
 }

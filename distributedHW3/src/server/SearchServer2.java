@@ -7,27 +7,6 @@ import java.util.Objects;
 
 public class SearchServer2 {
 
-    public static Object exec(String cmd) {
-        try {
-            String[] cmdA = { "/bin/sh", "-c", cmd };
-            Process process = Runtime.getRuntime().exec(cmdA);
-
-            process.waitFor();
-            LineNumberReader br = new LineNumberReader(new InputStreamReader(
-                    process.getInputStream()));
-            StringBuffer sb = new StringBuffer();
-            String line;
-            while ((line = br.readLine()) != null) {
-                System.out.println(line);
-                sb.append(line).append("\n");
-            }
-            return sb.toString();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
     public void search() throws IOException {
         int port = 9997;
         ServerSocket server = new ServerSocket(port);
@@ -48,7 +27,7 @@ public class SearchServer2 {
         String searchString = "<author>" + name + "</author>";
         String path = SearchServer2.class.getResource("File/dblp.xml"+ id).getFile();
         String commandString = "grep -c '" + searchString + "' " + path;
-        String answerString =  Objects.requireNonNull(exec(commandString)).toString();
+        String answerString =  Objects.requireNonNull(Helper.exec(commandString)).toString();
         outputStream.write(("server" + id + " returns " + answerString).getBytes());
         socket.close();
     }

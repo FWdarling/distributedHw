@@ -92,9 +92,9 @@ public class SearchClient {
             long timeCost = endTime - startTime;
             System.out.println("程序运行时间：" + timeCost + "ms");
             System.out.println("The total number of occurrences of the author is " + sum);
-            SearchServer.exec("echo \"Author name searched is " + name + "\"" + " >> 1853204-hw2-q1.log");
-            SearchServer.exec("echo \"The total number is " + sum + "\"" + " >> 1853204-hw2-q1.log");
-            SearchServer.exec("echo \"Time cost " + timeCost + "ms\"" + " >> 1853204-hw2-q1.log");
+            Helper.exec("echo \"Author name searched is " + name + "\"" + " >> hw2-q1.log");
+            Helper.exec("echo \"The total number is " + sum + "\"" + " >> hw2-q1.log");
+            Helper.exec("echo \"Time cost " + timeCost + "ms\"" + " >> hw2-q1.log");
         }
         catch(IOException | InterruptedException e){
             e.printStackTrace();

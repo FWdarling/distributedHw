@@ -1,5 +1,7 @@
 package server.daemon;
 
+import client.Helper;
+
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
@@ -35,6 +37,7 @@ public class Daemon {
         if(ipAndPort.equals(ip + ":" + port.toString())) return false;
         if(groupNodes.containsKey(ipAndPort) && groupNodes.get(ipAndPort).equals(time)) return false;
         groupNodes.put(ipAndPort, time);
+        Helper.exec("echo \" " + ipAndPort + "join in group\"" + " >> hw2-q1.log");
         return true;
     }
     /*
@@ -46,8 +49,9 @@ public class Daemon {
      * @return java.lang.Boolean whether spread
      */
     public Boolean deleteNode(String ipAndPort){
-        if(groupNodes.containsKey(ipAndPort)) return false;
+        if(!groupNodes.containsKey(ipAndPort)) return false;
         groupNodes.remove(ipAndPort);
+        Helper.exec("echo \"" + ipAndPort + "leave the group\"" + " >> hw2-q1.log");
         return true;
     }
 
@@ -93,7 +97,7 @@ public class Daemon {
                 Long time = Long.parseLong(msgs[2]);
                 Long preTime = groupNodes.getOrDefault(ipAndPort, null);
                 if (preTime == null || preTime < time) {
-                    groupNodes.put(ipAndPort, time);
+                    addNode(ipAndPort, time);
                     heartBeating(msg);
                 }
                 break;
@@ -159,7 +163,7 @@ public class Daemon {
         int count = 0;
         for (Map.Entry<String, Long> stringLongEntry : groupNodes.entrySet()) {
             Long time = stringLongEntry.getValue();
-            if(time - currTime < 1000) continue;
+            if(currTime - time < 20000) continue;
             String ipAndPort = stringLongEntry.getKey();
             ineffectiveNodes[count++] = ipAndPort;
         }
@@ -167,6 +171,7 @@ public class Daemon {
             String ipAndPort = ineffectiveNodes[i];
             deleteNode(ipAndPort);
             String msg = "del_" + ipAndPort;
+            System.out.println(msg);
             broadcast(msg);
         }
     }

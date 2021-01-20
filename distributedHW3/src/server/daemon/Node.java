@@ -27,14 +27,13 @@ public class Node extends Daemon{
             Socket socket = new Socket(introducerIp, introducerPort);
             OutputStream outputStream = socket.getOutputStream();
             PrintWriter printWriter = new PrintWriter(outputStream);
-            groupNodes.put(introducerIp + ":" + introducerPort.toString(), System.currentTimeMillis());
 
             String msg = "join_" + ip + ":" + port + "_" + System.currentTimeMillis();
             printWriter.write(msg);
             printWriter.flush();
             socket.shutdownOutput();
 
-            Thread.sleep(5000);
+            Thread.sleep(000);
             InputStream inputStream = socket.getInputStream();
             InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
             BufferedReader reader = new BufferedReader(inputStreamReader);
@@ -71,6 +70,7 @@ public class Node extends Daemon{
             String[] nodeMsg = node.split("-");
             Long time = Long.parseLong(nodeMsg[1]);
             String ipAndPort = nodeMsg[0];
+            if(ipAndPort.equals(ip + ":" + port.toString())) continue;
             groupNodes.put(ipAndPort, time);
         }
     }
@@ -103,7 +103,7 @@ public class Node extends Daemon{
             public void run() {
                 node.heartBeating();
             }
-        }, 10000, 10000);
+        }, 5000, 5000);
 
         Timer timer2 = new Timer();
         timer2.scheduleAtFixedRate(new TimerTask() {
@@ -111,6 +111,6 @@ public class Node extends Daemon{
             public void run() {
                 node.check();
             }
-        }, 10000, 10000);
+        }, 20000, 20000);
     }
 }
